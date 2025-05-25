@@ -4,8 +4,10 @@ const express = require('express');
 const app3000 = express();
 const port3000 = 3000;
 
+app.use(express.static('public_html'))
+
 app3000.get('/', (req, res) => {
-  res.send('<h1>Willkommen auf Port 3000!</h1>');
+  res.sendFile(path.join(__dirname, 'public_html', 'index.html')) //geht nichts
 });
 
 app3000.listen(port3000, () => {
