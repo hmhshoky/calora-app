@@ -3,6 +3,12 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
+app.engine('handlebars', exphbs.create().engine);
+app.set('view engine', 'handlebars');
+app.set('views', __dirname + '/views');
+
+app.use(express.static('public_html'));
+
 // Statische Dateien aus public_html
 app.use(express.static('public_html'));
 
@@ -18,4 +24,14 @@ app.get('/maintain', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server läuft auf http://localhost:${port}`);
+});
+
+app.get('/meals', (req, res) => {
+  const meals = [
+    { name: 'Spaghetti', kcal: 500 },
+    { name: 'Salad', kcal: 150 },
+    { name: 'Pizza', kcal: 800 }
+  ];
+
+  res.render('meals', { meals });
 });
