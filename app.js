@@ -1,13 +1,15 @@
 const express = require('express');
+const path = require('path');
 
 // App für Port 3000
 const app3000 = express();
 const port3000 = 3000;
 
-app.use(express.static('public_html'))
+// Statische Dateien für Port 3000
+app3000.use(express.static('public_html'));
 
 app3000.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public_html', 'index.html')) //geht nichts
+  res.sendFile(path.join(__dirname, 'public_html', 'index.html'));
 });
 
 app3000.listen(port3000, () => {
