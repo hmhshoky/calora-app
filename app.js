@@ -22,6 +22,14 @@ app.get('/maintain', (req, res) => {
   res.render('maintain');
 });
 
+app.get('/impressum', (req, res) => {
+  res.render('impressum');
+});
+
+app.get('/privacy', (req, res) => {
+  res.render('privacy');
+});
+
 // Start server
 app.listen(port, () => {
   console.log(`Server läuft auf http://localhost:${port}`);
