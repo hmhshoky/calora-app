@@ -1,2 +1,62 @@
-<h1>Maintenance Calculator</h1>
-<a href="/">Back to Calorie Tracker</a>
+<h1>Erhaltungskalorien berechnen</h1>
+
+<form id="maintain-form">
+  <input type="number" id="age" placeholder="Alter" required>
+  <input type="number" id="height" placeholder="Größe (cm)" required>
+  <input type="number" id="weight" placeholder="Gewicht (kg)" required>
+
+  <select id="gender" required>
+    <option value="male">Männlich</option>
+    <option value="female">Weiblich</option>
+  </select>
+
+  <select id="activity" required>
+    <option value="1.2">Wenig aktiv</option>
+    <option value="1.55">Normal aktiv</option>
+    <option value="1.9">Sehr aktiv</option>
+  </select>
+
+  <button type="submit">Berechnen</button>
+</form>
+
+<h2>Dein Erhaltungskalorienbedarf</h2>
+<p id="result">Bitte gib deine Daten ein.</p>
+
+<h2>Beispielhafte Daten</h2>
+<ul>
+  <li>Alter: {{example.age}}</li>
+  <li>Größe: {{example.height}} cm</li>
+  <li>Gewicht: {{example.weight}} kg</li>
+  <li>Geschlecht: {{example.gender}}</li>
+  <li>Aktivität: {{example.activity}}</li>
+  <li><strong>Erhaltungskalorien:</strong> {{example.result}} kcal</li>
+</ul>
+
+
+
+<a href="/">Zurück zur Startseite</a>
+
+<script>
+  document.getElementById('maintain-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const age = parseInt(document.getElementById('age').value);
+    const height = parseFloat(document.getElementById('height').value);
+    const weight = parseFloat(document.getElementById('weight').value);
+    const gender = document.getElementById('gender').value;
+    const activity = parseFloat(document.getElementById('activity').value);
+
+    let bmr;
+    if (gender === 'male') {
+      bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+    } else {
+      bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+    }
+
+    const maintenance = Math.round(bmr * activity);
+
+    // Ergebnis in zwei Elementen anzeigen
+    document.getElementById('result').innerText =
+      `Dein täglicher Erhaltungskalorienbedarf beträgt ca. ${maintenance} kcal.`;
+  });
+</script>

@@ -18,10 +18,6 @@ app.get('/', (req, res) => {
   res.render('counter');
 });
 
-app.get('/maintain', (req, res) => {
-  res.render('maintain');
-});
-
 app.get('/impressum', (req, res) => {
   res.render('impressum');
 });
@@ -34,3 +30,17 @@ app.get('/privacy', (req, res) => {
 app.listen(port, () => {
   console.log(`Server läuft auf http://localhost:${port}`);
 });
+
+app.get('/maintain', (req, res) => {
+  res.render('maintain', {
+    example: {
+      age: 25,
+      height: 175,
+      weight: 70,
+      gender: 'Männlich',
+      activity: 'Normal aktiv',
+      result: 2500
+    }
+  });
+});
+
