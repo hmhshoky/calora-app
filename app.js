@@ -5,17 +5,17 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-// Static files
+// Statische Dateien (CSS, Bilder etc.)
 app.use(express.static('public_html'));
 
-// View engine setup
+// Handlebars als Template Engine einrichten
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
-// Routes
+// Routen
 app.get('/', (req, res) => {
-  res.render('counter');
+  res.render('counter'); // Startseite
 });
 
 app.get('/impressum', (req, res) => {
@@ -24,11 +24,6 @@ app.get('/impressum', (req, res) => {
 
 app.get('/privacy', (req, res) => {
   res.render('privacy');
-});
-
-// Start server
-app.listen(port, () => {
-  console.log(`Server läuft auf http://localhost:${port}`);
 });
 
 app.get('/maintain', (req, res) => {
@@ -44,3 +39,7 @@ app.get('/maintain', (req, res) => {
   });
 });
 
+// Server starten
+app.listen(port, () => {
+  console.log(`Server läuft auf http://localhost:${port}`);
+});

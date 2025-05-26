@@ -32,8 +32,6 @@
   <li><strong>Erhaltungskalorien:</strong> {{example.result}} kcal</li>
 </ul>
 
-
-
 <a href="/">Zurück zur Startseite</a>
 
 <script>
@@ -55,7 +53,6 @@
 
     const maintenance = Math.round(bmr * activity);
 
-    // Ergebnis in zwei Elementen anzeigen
     document.getElementById('result').innerText =
       `Dein täglicher Erhaltungskalorienbedarf beträgt ca. ${maintenance} kcal.`;
   });
