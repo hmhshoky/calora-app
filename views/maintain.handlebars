@@ -1,38 +1,107 @@
-<h1>Erhaltungskalorien berechnen</h1>
+<div class="maintain-container">
+  <div class="maintain-header">
+    <h1>Erhaltungskalorien berechnen</h1>
+    <p class="subtitle">Berechne deinen täglichen Kalorienbedarf basierend auf deinen persönlichen Daten</p>
+  </div>
 
-<form id="maintain-form">
-  <input type="number" id="age" placeholder="Alter" required>
-  <input type="number" id="height" placeholder="Größe (cm)" required>
-  <input type="number" id="weight" placeholder="Gewicht (kg)" required>
+  <div class="maintain-content">
+    <!-- Linke Seite: Formular -->
+    <div class="left-panel">
+      <h2>Deine Daten eingeben</h2>
+      <form id="maintain-form">
+        <div class="input-group">
+          <label for="age">Alter (Jahre)</label>
+          <input type="number" id="age" placeholder="z.B. 25" required>
+        </div>
 
-  <select id="gender" required>
-    <option value="male">Männlich</option>
-    <option value="female">Weiblich</option>
-  </select>
+        <div class="input-group">
+          <label for="height">Größe (cm)</label>
+          <input type="number" id="height" placeholder="z.B. 175" required>
+        </div>
 
-  <select id="activity" required>
-    <option value="1.2">Wenig aktiv</option>
-    <option value="1.55">Normal aktiv</option>
-    <option value="1.9">Sehr aktiv</option>
-  </select>
+        <div class="input-group">
+          <label for="weight">Gewicht (kg)</label>
+          <input type="number" id="weight" placeholder="z.B. 70" required>
+        </div>
 
-  <button type="submit">Berechnen</button>
-</form>
+        <div class="input-group">
+          <label for="gender">Geschlecht</label>
+          <select id="gender" required>
+            <option value="">Bitte wählen...</option>
+            <option value="male">Männlich</option>
+            <option value="female">Weiblich</option>
+          </select>
+        </div>
 
-<h2>Dein Erhaltungskalorienbedarf</h2>
-<p id="result">Bitte gib deine Daten ein.</p>
+        <div class="input-group">
+          <label for="activity">Aktivitätslevel</label>
+          <select id="activity" required>
+            <option value="">Bitte wählen...</option>
+            <option value="1.2">Wenig aktiv (Bürojob, kein Sport)</option>
+            <option value="1.55">Normal aktiv (1-3x Sport/Woche)</option>
+            <option value="1.9">Sehr aktiv (4-7x Sport/Woche)</option>
+          </select>
+        </div>
 
-<h2>Beispielhafte Daten</h2>
-<ul>
-  <li>Alter: {{example.age}}</li>
-  <li>Größe: {{example.height}} cm</li>
-  <li>Gewicht: {{example.weight}} kg</li>
-  <li>Geschlecht: {{example.gender}}</li>
-  <li>Aktivität: {{example.activity}}</li>
-  <li><strong>Erhaltungskalorien:</strong> {{example.result}} kcal</li>
-</ul>
+        <button type="submit" class="btn calculate-btn">
+          <span class="btn-icon">🧮</span>
+          Berechnen
+        </button>
+      </form>
+    </div>
 
-<a href="/">Zurück zur Startseite</a>
+    <!-- Rechte Seite: Ergebnis & Beispiel -->
+    <div class="right-panel">
+      <div class="result-section">
+        <h2>Dein Ergebnis</h2>
+        <div class="result-box">
+          <div id="result" class="result-display">
+            <div class="result-icon">🎯</div>
+            <p>Gib deine Daten ein, um deinen Kalorienbedarf zu berechnen.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="example-section">
+        <h3>Beispielhafte Berechnung</h3>
+        <div class="example-card">
+          <div class="example-data">
+            <div class="data-row">
+              <span class="data-label">Alter:</span>
+              <span class="data-value">{{example.age}} Jahre</span>
+            </div>
+            <div class="data-row">
+              <span class="data-label">Größe:</span>
+              <span class="data-value">{{example.height}} cm</span>
+            </div>
+            <div class="data-row">
+              <span class="data-label">Gewicht:</span>
+              <span class="data-value">{{example.weight}} kg</span>
+            </div>
+            <div class="data-row">
+              <span class="data-label">Geschlecht:</span>
+              <span class="data-value">{{example.gender}}</span>
+            </div>
+            <div class="data-row">
+              <span class="data-label">Aktivität:</span>
+              <span class="data-value">{{example.activity}}</span>
+            </div>
+          </div>
+          <div class="example-result">
+            <strong>Erhaltungskalorien: {{example.result}} kcal/Tag</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="back-link">
+        <a href="/" class="btn back-btn">
+          <span class="btn-icon">🏠</span>
+          Zurück zur Startseite
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
   document.getElementById('maintain-form').addEventListener('submit', function(e) {
@@ -52,8 +121,36 @@
     }
 
     const maintenance = Math.round(bmr * activity);
+    
+    // Animiertes Update des Ergebnisses
+    const resultElement = document.getElementById('result');
+    resultElement.style.opacity = '0';
+    resultElement.style.transform = 'scale(0.9)';
+    
+    setTimeout(() => {
+      resultElement.innerHTML = `
+        <div class="result-icon success">✅</div>
+        <div class="result-text">
+          <h3>Dein täglicher Kalorienbedarf</h3>
+          <div class="calories-display">${maintenance} kcal</div>
+          <p>Diese Kalorienmenge benötigst du täglich, um dein aktuelles Gewicht zu halten.</p>
+        </div>
+      `;
+      resultElement.style.opacity = '1';
+      resultElement.style.transform = 'scale(1)';
+    }, 300);
+  });
 
-    document.getElementById('result').innerText =
-      `Dein täglicher Erhaltungskalorienbedarf beträgt ca. ${maintenance} kcal.`;
+  // Input Validierung mit visueller Rückmeldung
+  document.querySelectorAll('#maintain-form input, #maintain-form select').forEach(input => {
+    input.addEventListener('blur', function() {
+      if (this.checkValidity()) {
+        this.classList.add('valid');
+        this.classList.remove('invalid');
+      } else {
+        this.classList.add('invalid');
+        this.classList.remove('valid');
+      }
+    });
   });
 </script>
