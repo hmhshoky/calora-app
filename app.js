@@ -10,18 +10,12 @@ app.use(express.static('static'));
 
 // Handlebars als Template Engine einrichten
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
-app.set('view engine', 'handlebars');
+// wenn zum Beispiel res.render("counter") aufgeruft wird dann sucht Express autoatisch nach counter.handlebars
+// (ohne Dateiendung angeben zu müssen)
+app.set('view engine', 'handlebars'); 
 app.set('views', path.join(__dirname, 'views'));
 
-// Routen
-app.get('/impressum', (req, res) => {
-  res.render('impressum');
-});
-
-app.get('/privacy', (req, res) => {
-  res.render('privacy');
-});
-
+// maintain-Route
 app.get('/maintain', (req, res) => {
   res.render('maintain', {
     example: {
@@ -35,34 +29,44 @@ app.get('/maintain', (req, res) => {
   });
 });
 
-// --- Temporärer Datenspeicher (später durch DB ersetzen) ---
+// temporär (später durch DB)
 let totalCalories = 0;
 let recentItems = [];
 
-// --- Route für die Startseite ---
+// gibt counter als Startseite / an
 app.get('/', (req, res) => {
-  res.render('counter', {
-    recentItems // Übergibt die gespeicherten Einträge an die View
+  res.render('counter', { 
+    recentItems
   });
 });
 
-// --- API-Route für neue Essen-Einträge ---
+// API-Route für neue Essen-Einträge
 app.post('/api/add-food', express.json(), (req, res) => {
-  const { food } = req.body;
+  const { food } = req.body; //das Gleiche wie: const food = req.body.food;
   
-  // Simuliere Kalorienberechnung (z. B. 100 kcal pro Eintrag)
+  // Simuliere Kalorienberechnung
   const calories = 100; // Später durch echte Logik ersetzen
   totalCalories += calories;
 
-  // Füge den Eintrag zur Liste hinzu
+  // Füge den Eintrag zur Liste "recentItems" hinzu
   recentItems.push({ name: food, calories });
   
-  // Antwort an den Client
+  // response an den Client
   res.json({
     totalCalories,
     recentItems,
-    aiText: "Simulierte KI-Antwort" // Später durch OpenAI ersetzen
+    aiText: "Simulierte KI-Antwort" // Später ersetzen
   });
+});
+
+// impressum-Route
+app.get('/impressum', (req, res) => {
+  res.render('impressum');
+});
+
+// Privacy-Route
+app.get('/privacy', (req, res) => {
+  res.render('privacy');
 });
 
 // Server starten
