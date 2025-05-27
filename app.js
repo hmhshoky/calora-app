@@ -14,10 +14,6 @@ app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
 // Routen
-app.get('/', (req, res) => {
-  res.render('counter'); // Startseite
-});
-
 app.get('/impressum', (req, res) => {
   res.render('impressum');
 });
@@ -36,15 +32,6 @@ app.get('/maintain', (req, res) => {
       activity: 'Normal aktiv',
       result: 2500
     }
-  });
-});
-
-app.get('/', (req, res) => {
-  res.render('counter', {
-    recentItems: [
-      { name: "Apfel", calories: 52 },
-      { name: "Vollkornbrot", calories: 200 }
-    ]
   });
 });
 
