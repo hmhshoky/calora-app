@@ -1,2 +1,56 @@
-<h1>Calorie Tracker</h1>
-<a href="/maintain">Go to Maintenance Calculator</a>
+<div class="container">
+  <!-- Linke Hälfte -->
+  <div class="left-panel">
+    <h2>Aktuelle Kalorien: <span id="calories">0</span> kcal</h2>
+    <div class="ai-box">
+      <p>KI-Empfehlung: <span id="ai-response">...</span></p>
+      <button id="agree-btn" class="btn">Zustimmen</button>
+    </div>
+    <br>
+    <form id="food-form">
+      <input type="text" id="food-input" placeholder="Was hast du gegessen?" required>
+      <button type="submit" class="btn">Hinzufügen</button>
+    </form>
+  </div>
+
+  <!-- Rechte Hälfte -->
+  <div class="right-panel">
+    <h3>Zuletzt hinzugefügt:</h3>
+    <ul id="recent-items">
+      {{#each recentItems}}
+        <li>{{this.name}} ({{this.calories}} kcal)</li>
+      {{/each}}
+    </ul>
+  </div>
+</div>
+
+<script>
+  // Formular-Eingabe verarbeiten
+  document.getElementById('food-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const food = document.getElementById('food-input').value;
+
+    // Sende Daten an den Server (POST-Request)
+    const response = await fetch('/api/add-food', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ food })
+    });
+
+    // Aktualisiere die UI
+    const data = await response.json();
+    
+    // Kalorien anzeigen
+    document.getElementById('calories').textContent = data.totalCalories;
+    
+    // KI-Antwort anzeigen (vorerst simuliert)
+    document.getElementById('ai-response').textContent = data.aiText || "Iss mehr Gemüse!";
+    
+    // Liste aktualisieren
+    const recentItemsList = document.getElementById('recent-items');
+    recentItemsList.innerHTML = data.recentItems.map(item => 
+      `<li>${item.name} (${item.calories} kcal)</li>`
+    ).join('');
+  });
+</script>
+
