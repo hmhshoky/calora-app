@@ -24,7 +24,7 @@ app.get('/maintain', (req, res) => {
       weight: 70,
       gender: 'Männlich',
       activity: 'Normal aktiv',
-      result: 2500
+      result: 2594
     }
   });
 });
